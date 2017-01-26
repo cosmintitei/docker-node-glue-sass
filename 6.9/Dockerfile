@@ -73,9 +73,10 @@ RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
     && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
 
 ########################################################################################################################
-##### Node 6.9.1                                                                                                   #####
+##### Node 6.9.4                                                                                                   #####
 ########################################################################################################################
-RUN groupadd -r node && useradd -r -g node node
+RUN groupadd --gid 1000 node \
+  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -93,7 +94,7 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV NODE_VERSION 6.9.1
+ENV NODE_VERSION 6.9.4
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
